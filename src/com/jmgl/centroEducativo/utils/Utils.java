@@ -53,6 +53,7 @@ public class Utils {
 	 * @return Número entero introducido por el usuario.
 	 */
 	public static int obtenerEnteroPorScanner() {
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		return sc.nextInt();
 	}
@@ -98,6 +99,7 @@ public class Utils {
 			int limiteSup) {
 		int numeroADelvolver = 0;
 		
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		boolean datoCorrecto;
 		do {

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jmgl.centroEducativo.model.Curso;
 import com.jmgl.centroEducativo.model.Estudiante;
 import com.jmgl.centroEducativo.utils.ConnectionManager;
 
@@ -37,6 +36,9 @@ public class ControladorEstudiante {
 				estudiante.setDireccion(rs.getString("direccion"));
 				estudiante.setEmail(rs.getString("email"));
 				estudiante.setTelefono(rs.getString("telefono"));
+				estudiante.setIdSexo(rs.getInt("tipologiasexo"));
+				estudiante.setImagen(rs.getBytes("imagen"));
+				estudiante.setColor(rs.getString("color"));
 				estudiantes.add(estudiante);
 			}
 			
@@ -71,6 +73,9 @@ public class ControladorEstudiante {
 				estudiante.setDireccion(rs.getString("direccion"));
 				estudiante.setEmail(rs.getString("email"));
 				estudiante.setTelefono(rs.getString("telefono"));
+				estudiante.setIdSexo(rs.getInt("tipologiasexo"));
+				estudiante.setImagen(rs.getBytes("imagen"));
+				estudiante.setColor(rs.getString("color"));
 			}
 			
 			rs.close();
@@ -130,7 +135,7 @@ public class ControladorEstudiante {
 		try {
 			Connection conn = ConnectionManager.getConexion();
 			PreparedStatement ps = conn.prepareStatement(
-					"update estudiante set nombre = ?, apellido1 = ?, apellido2 = ?, dni = ?, direccion = ?, email = ?, telefono = ? where id = ?");
+					"update estudiante set nombre = ?, apellido1 = ?, apellido2 = ?, dni = ?, direccion = ?, email = ?, telefono = ?, tipologiasexo = ?, imagen = ?, color = ? where id = ?");
 		
 			ps.setString(1, es.getNombre());
 			ps.setString(2, es.getApellido1());
@@ -139,7 +144,10 @@ public class ControladorEstudiante {
 			ps.setString(5, es.getDireccion());
 			ps.setString(6, es.getEmail());
 			ps.setString(7, es.getTelefono());
-			ps.setInt(8, es.getId());
+			ps.setInt(8, es.getIdSexo());
+			ps.setBytes(9, es.getImagen());
+			ps.setString(10, es.getColor());
+			ps.setInt(11, es.getId());
 			int rows = ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -160,8 +168,8 @@ public class ControladorEstudiante {
 		try {
 			Connection conn = ConnectionManager.getConexion();
 			PreparedStatement ps = conn.prepareStatement(
-					"insert into estudiante (id, nombre, apellido1, apellido2, dni, direccion, email, telefono) "
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)");
+					"insert into estudiante (id, nombre, apellido1, apellido2, dni, direccion, email, telefono, tipologiasexo, imagen, color) "
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 			int siguienteIdValido = getSiguientIdValido();
 			ps.setInt(1, siguienteIdValido);
@@ -172,6 +180,9 @@ public class ControladorEstudiante {
 			ps.setString(6, es.getDireccion());
 			ps.setString(7, es.getEmail());
 			ps.setString(8, es.getTelefono());
+			ps.setInt(9, es.getIdSexo());
+			ps.setBytes(10, es.getImagen());
+			ps.setString(11, es.getColor());
 			ps.executeUpdate();
 			ps.close();
 			conn.close();

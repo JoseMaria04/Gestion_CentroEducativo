@@ -13,12 +13,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
-import com.jmgl.centroEducativo.controller.ControladorCurso;
 import com.jmgl.centroEducativo.controller.ControladorEstudiante;
 import com.jmgl.centroEducativo.controller.ControladorMateria;
 import com.jmgl.centroEducativo.controller.ControladorProfesor;
 import com.jmgl.centroEducativo.controller.ControladorValoracionMateria;
-import com.jmgl.centroEducativo.model.Curso;
 import com.jmgl.centroEducativo.model.Estudiante;
 import com.jmgl.centroEducativo.model.Materia;
 import com.jmgl.centroEducativo.model.Profesor;
@@ -119,6 +117,14 @@ public class PanelValoracionMateria extends JPanel {
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
 		jcbEstudiante = new JComboBox<Estudiante>();
+		jcbEstudiante.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				  Object selected = jcbEstudiante.getSelectedItem();
+//			        if (selected != null) {
+//			        	jcbMateria.setVisible(true);
+//			        }			
+			}
+		});
 		GridBagConstraints gbc_jcbEstudiante = new GridBagConstraints();
 		gbc_jcbEstudiante.insets = new Insets(10, 10, 10, 10);
 		gbc_jcbEstudiante.fill = GridBagConstraints.HORIZONTAL;
@@ -136,6 +142,7 @@ public class PanelValoracionMateria extends JPanel {
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
 		jcbMateria = new JComboBox<Materia>();
+//		jcbMateria.setVisible(false);
 		jcbMateria.setBackground(new Color(255, 255, 255));
 		GridBagConstraints gbc_jcbMateria = new GridBagConstraints();
 		gbc_jcbMateria.insets = new Insets(10, 10, 10, 10);

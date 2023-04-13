@@ -9,7 +9,10 @@ public class Profesor {
 	private String direccion;
 	private String email;
 	private String telefono;
-	
+	private int idSexo;
+	private byte[] imagen;
+	private String color;
+
 	/**
 	 * 
 	 */
@@ -155,6 +158,49 @@ public class Profesor {
 	@Override
 	public String toString() {
 		return "" + id;
-		}
+	}
+	
+	/**
+	 * @return the idSexo
+	 */
+	public int getIdSexo() {
+		return idSexo;
+	}
+
+	/**
+	 * @param idSexo the idSexo to set
+	 */
+	public void setIdSexo(int idSexo) {
+		this.idSexo = idSexo;
+	}
+	
+	/**
+	 * @return the imagen
+	 */
+	public byte[] getImagen() {
+		return imagen;
+	}
+
+	/**
+	 * @param imagen the imagen to set
+	 */
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 	
 }
