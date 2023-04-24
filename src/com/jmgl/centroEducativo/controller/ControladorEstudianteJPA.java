@@ -1,5 +1,6 @@
 package com.jmgl.centroEducativo.controller;
 
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,12 +13,12 @@ import com.jmgl.centroEducativo.modelJPA.Estudiante;
 public class ControladorEstudianteJPA {
 	private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("centroeducativo");
 
-	public static Estudiante findAllEstudiante (int id){
+	public static List<Estudiante> findAll (){
 		EntityManager em = entityManagerFactory.createEntityManager();
-		Query q = em.createNativeQuery("SELECT * FROM estudiante where id = ?", Estudiante.class);
-		q.setParameter(1, id);
+		Query q = em.createNativeQuery("SELECT * FROM estudiante", Estudiante.class);
 
-		Estudiante l =  (Estudiante) q.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Estudiante> l =  (List<Estudiante>) q.getResultList();
 		em.close();
 		return l;
 	}
