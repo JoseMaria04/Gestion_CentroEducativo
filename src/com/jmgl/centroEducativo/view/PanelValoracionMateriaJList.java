@@ -5,9 +5,11 @@ import javax.swing.JPanel;
 import com.jmgl.centroEducativo.controller.ControladorEstudianteJPA;
 import com.jmgl.centroEducativo.controller.ControladorMateriaJPA;
 import com.jmgl.centroEducativo.controller.ControladorProfesorJPA;
+import com.jmgl.centroEducativo.controller.ControladorValoracionMateriaJPA;
 import com.jmgl.centroEducativo.modelJPA.Estudiante;
 import com.jmgl.centroEducativo.modelJPA.Materia;
 import com.jmgl.centroEducativo.modelJPA.Profesor;
+import com.jmgl.centroEducativo.modelJPA.Valoracionmateria;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -20,6 +22,8 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class PanelValoracionMateriaJList extends JPanel {
@@ -144,7 +148,7 @@ public class PanelValoracionMateriaJList extends JPanel {
 		gbc_panel_1.gridy = 0;
 		panel.add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.rowWeights = new double[]{0.0, 1.0};
+		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, 0.0};
 		gbl_panel_1.columnWeights = new double[]{1.0, 1.0, 1.0};
 //		gbl_panel_1.columnWidths = new int[]{0, 0};
 //		gbl_panel_1.rowHeights = new int[]{0, 0};
@@ -155,7 +159,7 @@ public class PanelValoracionMateriaJList extends JPanel {
 		JLabel lblNewLabel_3 = new JLabel("Alumnado no selecionado:");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 18));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.insets = new Insets(5, 0, 5, 0);
+		gbc_lblNewLabel_3.insets = new Insets(5, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 0;
 		gbc_lblNewLabel_3.gridy = 0;
 		panel_1.add(lblNewLabel_3, gbc_lblNewLabel_3);
@@ -163,7 +167,7 @@ public class PanelValoracionMateriaJList extends JPanel {
 		JLabel lblNewLabel_4 = new JLabel("Alumnado selecionado:");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 18));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
-		gbc_lblNewLabel_4.insets = new Insets(5, 0, 0, 0);
+		gbc_lblNewLabel_4.insets = new Insets(5, 0, 5, 0);
 		gbc_lblNewLabel_4.gridx = 2;
 		gbc_lblNewLabel_4.gridy = 0;
 		panel_1.add(lblNewLabel_4, gbc_lblNewLabel_4);
@@ -249,6 +253,20 @@ public class PanelValoracionMateriaJList extends JPanel {
 		gbc_jListAlumnoSelecionado.gridx = 2;
 		gbc_jListAlumnoSelecionado.gridy = 1;
 		panel_1.add(jListAlumnoSelecionado, gbc_jListAlumnoSelecionado);
+		
+		JButton jbtGuardar = new JButton("Guardar Nota de todos los alumnos selecionados");
+		jbtGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+			}
+		});
+		GridBagConstraints gbc_jbtGuardar = new GridBagConstraints();
+		gbc_jbtGuardar.gridwidth = 3;
+		gbc_jbtGuardar.anchor = GridBagConstraints.EAST;
+		gbc_jbtGuardar.insets = new Insets(10, 10, 10, 10);
+		gbc_jbtGuardar.gridx = 0;
+		gbc_jbtGuardar.gridy = 2;
+		panel_1.add(jbtGuardar, gbc_jbtGuardar);
 		
 		cargarMateria();
 		cargarProfesor();
@@ -348,5 +366,33 @@ public class PanelValoracionMateriaJList extends JPanel {
 	private void selecionadoDerecha() {
 		this.listModelEstudianteDerecha.addElement(this.jLsAlumnoNoSelecionado.getSelectedValue());
 		this.listModelEstudianteIzquierda.removeElement(this.jLsAlumnoNoSelecionado.getSelectedValue());
+	}
+	
+	@SuppressWarnings("null")
+	private void guardar() {
+		Profesor p = (Profesor) jcbProfesor.getSelectedItem();
+		Materia m = (Materia) jcbMateria.getSelectedItem();
+		
+		List<Estudiante> le = new ArrayList<Estudiante>();
+		for (int i = 0; i < this.listModelEstudianteDerecha.size(); i++) {
+			le.add(this.listModelEstudianteDerecha.getElementAt(i));
+		}
+		
+		for (Estudiante e : le) {
+			Valoracionmateria vm = ControladorValoracionMateriaJPA.findByProfesorAndMateriaAndEstudiante(p.getId(), m.getId(), e.getId());
+		
+			if(vm != null) {
+				vm.setValoracion((Float) jcbNota.getSelectedItem());
+				ControladorValoracionMateriaJPA.modificarValoracionMateria(vm);
+			}
+			else {
+				vm = new Valoracionmateria();
+				vm.setProfesor(p);
+				vm.setEstudiante(e);
+				vm.setMateria(m);
+				vm.setValoracion((float) jcbNota.getSelectedItem());
+				ControladorValoracionMateriaJPA.creacionValoracionMateria(vm);
+			}
+		}
 	}
 }
