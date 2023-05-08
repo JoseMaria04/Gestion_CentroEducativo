@@ -37,6 +37,7 @@ public class VentanaPrincipal extends JFrame{
 		JTabbedPane tabedPane = new JTabbedPane();
 		tabedPane.add("Cursos", new PanelCurso());
 		tabedPane.add("Estudiantes", new PanelEstudiante2());
+		tabedPane.add("Estudiantes JTable", new PanelEstudianteJTable());
 		tabedPane.add("Profesores", new PanelProfesor2());
 		tabedPane.add("Materias", new PanelMateria());
 		tabedPane.add("Valoracion de la Materia", new PanelValoracionMateria());
